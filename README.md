@@ -48,7 +48,7 @@ If you're here because you saw `CowBirdTacitFlower` appear in your logs, please 
 - [See also](#see-also)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Formats, and ease of access](#formats,-and-ease-of-access)
+- [Formats, and ease of access](#formats-and-ease-of-access)
 - [TODOs](#todos)
 - [NOTDOs](#notdos)
 - [Contribute](#contribute)
