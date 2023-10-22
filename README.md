@@ -48,6 +48,7 @@ If you're here because you saw `CowBirdTacitFlower` appear in your logs, please 
 - [See also](#see-also)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Formats, and ease of access](#formats,-and-ease-of-access)
 - [TODOs](#todos)
 - [NOTDOs](#notdos)
 - [Contribute](#contribute)
@@ -129,6 +130,24 @@ That's it.
 The output will be in `intermediate_certs/intermediate_certs.pem` alongside the individual (possibly outdated) certificates and records list.
 
 Note that this is only so easy because Mozilla (and not me) is doing all the hard work of vetting root CAs, collecting intermediate CA certificates, and running the servers. Consider [donating to them](https://donate.mozilla.org/).
+
+## Formats, and ease of access
+
+Finally, let me observe something silly:
+```
+$ du -h records.json intermediate_certs.pem.gz intermediate_certs.pem.xz
+1,3M	records.json
+1,3M	intermediate_certs.pem.gz
+1,1M	intermediate_certs.pem.xz
+```
+
+So using the kinto system has huge CPU and network overhead for client and server, since it requires between a handful up to a thousand of individual requests; one request for each of the 1400 certs.
+
+On the other hand, just making the bundle directly available for download would be *smaller* than just the first request in your fancy diffable system!
+
+I believe projects like this should never be necessary. You have the data, you want to share the data with the world, and you chose a format that makes it harder to access the data. Why?!
+
+(Please note that my only gripe is this choice of format. I still think [Mozilla](https://donate.mozilla.org/) is awesome! I actually enjoyed the discoverability of the kinto API!)
 
 ## TODOs
 
