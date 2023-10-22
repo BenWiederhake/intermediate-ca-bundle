@@ -14,10 +14,10 @@ how to fix it, please visit the web page mentioned above.
 [$? = 60]
 ```
 
-This project provides a [weekly-updated `intermediate_certs.pem` file](https://benwiederhake.github.io/intermediate-ca-bundle/intermediate_certs.pem), which you can use like this:
+This project provides a [weekly-updated `intermediate_certs.pem` file](https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem), which you can use like this:
 
 ```
-$ curl --proto '=https' --tlsv1.2 -sSf -O 'https://benwiederhake.github.io/intermediate-ca-bundle/intermediate_certs.pem'  # Download
+$ curl --proto '=https' --tlsv1.2 -sSf -O 'https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem'  # Download
 
 $ cat /etc/ssl/certs/ca-certificates.crt intermediate_certs.pem > combined.pem  # Combine with your system root CA certs
 
@@ -91,7 +91,7 @@ It is unreasonable to demand that thousands of sysadmins out there go and change
 - Create a CAINFO bundle of PEM certificates by concatenating the results
 - Use that with curl/requests/whatever you want
 
-To save resources and avoid hammering the Mozilla serverswith thousands of requests, I created an easily-downloadable bundle at [https://benwiederhake.github.io/intermediate-ca-bundle/intermediate_certs.pem](https://benwiederhake.github.io/intermediate-ca-bundle/intermediate_certs.pem). Please be nice to github and don't hammer that URL either. I promise the file won't change that often, simply to save my own resources.
+To save resources and avoid hammering the Mozilla serverswith thousands of requests, I created an easily-downloadable bundle at [https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem](https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem). Please be nice to github and don't hammer that URL either. I promise the file won't change that often, simply to save my own resources.
 
 Note that by construction, this bundle will become outdated rather quickly, so you should rebuild/refetch it about every week or so.
 
@@ -112,7 +112,7 @@ You really shouldn't install this anywhere.
 ## Usage
 
 You most definitely don't need to run this code.
-- If you just need a bundle, my cronjob should rebuild it every week, and you can [download it here](https://benwiederhake.github.io/intermediate-ca-bundle/intermediate_certs.pem).
+- If you just need a bundle, my cronjob should rebuild it every week, and you can [download it here](https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem).
 - If you need a highly-accurate, up-to-date thing, then you should be running an actual kinto client and stay synchronized that way.
 
 But let's ignore that for now, and assume you have a good reason to run the code anyway. (If it's because the bundle is no longer updating, something has gone very wrong. Help, I guess?)

@@ -1,3 +1,5 @@
 __pycache__/
 secret_config.py
 .venv/
+intermediate_certs/
+blob/
