@@ -56,12 +56,12 @@ If you're here because you saw `CowBirdTacitFlower` appear in your logs, please 
 ## How TLS should work
 
 The process of establishing a secure TLS connection (https, ftps, DoH, etc.) involves at least one side being able to cryptographically prove their identity; usually the server. This is usually done through a certificate *chain*. Here's a simplified summary:
-- A *root* CA cerficate simply says "The CA with name <ABCD> has the public key <1234>."
+- A *root* CA certificate simply says "The CA with name <ABCD> has the public key <1234>."
   The idea is that there are only relatively [few](https://packages.debian.org/stable/all/ca-certificates/filelist) root CAs in existence, which can be reasonably audited manually.
 - A *server* certificate essentially says "The server at example.com has the public key <2345>. I am certificate authority <3456>, and here's my cryptographic signature to prove it."
   The idea is that server certificates are short-lived, easy to replace and update. The certificate authority might be a root CA, but that causes some bottlenecks and other issues. Hence the need for another, intermediate step:
 - An *intermediate* CA certificate basically says "The CA with name <EFGH> has the public key <4567>. I am certificate authority <5678>, and here's my cryptographic signature to prove it.", along with a cryptographic signature of a *higher-level* CA.
-  The idea is that *intermediate* certificates are much easier to replace than root CA certificates, while at the same time being much longer lived than server vertificates.
+  The idea is that *intermediate* certificates are much easier to replace than root CA certificates, while at the same time being much longer lived than server certificates.
 
 Of course, this glosses over a lot of details, edge cases, restrictions, and other features.
 
@@ -80,7 +80,7 @@ Well, intermediate CA certificates are long-lived, and used for many many websit
 
 This has been [done in the past](https://www.ssltools.com/report/f3dbb1c6-1c02-40eb-9069-3796f002e7cd), and is being [done in the present](https://www.ssllabs.com/ssltest/analyze.html?d=eatcs.org) by many servers. Too many to list them here.
 
-But of course we don't want to show an error to the user. So [some browsers](https://security.stackexchange.com/a/211750) keep a store of intermediate CA certificates, which kinda mostly works if this intermediate store is well-maintained (which requires a constant search for missed intermediates; note that ), and users regularly apply updates (because intermediate CA certificates very much expire), and you don't visit any websites whose certification path is too new (and use intermediate CA certificates you haven't seen yet).
+But of course we don't want to show an error to the user. So [some browsers](https://security.stackexchange.com/a/211750) keep a store of intermediate CA certificates, which kinda mostly works if this intermediate store is well-maintained (which requires a constant search for missed intermediates; note that I trust that Mozilla keeps up this particular project), and users regularly apply updates (because intermediate CA certificates very much expire) or have auto-updates (Firefox seems to auto-fetch the intermediate-ca store on startup), and you don't visit any websites whose certification path is too new (and use intermediate CA certificates you haven't seen yet).
 
 So now we have this awful situation, where everything kinda mostly works apparently, but is completely unusable to automated tools.
 It is unreasonable to demand that thousands of sysadmins out there go and change their webserver's setup, so a different solution is necessary.
@@ -92,7 +92,7 @@ It is unreasonable to demand that thousands of sysadmins out there go and change
 - Create a CAINFO bundle of PEM certificates by concatenating the results
 - Use that with curl/requests/whatever you want
 
-To save resources and avoid hammering the Mozilla serverswith thousands of requests, I created an easily-downloadable bundle at [https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem](https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem). Please be nice to github and don't hammer that URL either. I promise the file won't change that often, simply to save my own resources.
+To save resources and avoid hammering the Mozilla servers with thousands of requests, I created an easily-downloadable bundle at [https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem](https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem). Please be nice to GitHub and don't hammer that URL either. I promise the file won't change that often, simply to save my own resources.
 
 Note that by construction, this bundle will become outdated rather quickly, so you should rebuild/refetch it about every week or so.
 
@@ -104,7 +104,7 @@ Note that by construction, this bundle will become outdated rather quickly, so y
 - https://searchfox.org/mozilla-central/source/services/settings/Attachments.sys.mjs#374
 - https://remote-settings.readthedocs.io/en/latest/tutorial-attachments.html#publish-records-with-attachments
 - https://github.com/mozilla/remote-settings/blob/1cfb199a8648abdc89f79dea7c9f8e5f27902c7a/docs/getting-started.rst#L73
-- Does not actually contain the store for for email: https://thunderbird-settings.thunderbird.net/v1/
+- E-Mail uses a different set of intermediate certs: https://thunderbird-settings.thunderbird.net/v1/
 
 ## Installation
 
@@ -112,9 +112,9 @@ You really shouldn't install this anywhere.
 
 ## Usage
 
-You most definitely don't need to run this code.
+You most definitely don't need to run this code:
 - If you just need a bundle, my cronjob should rebuild it every week, and you can [download it here](https://raw.githubusercontent.com/BenWiederhake/intermediate-ca-bundle/blob/intermediate_certs.pem).
-- If you need a highly-accurate, up-to-date thing, then you should be running an actual kinto client and stay synchronized that way.
+- If you need a highly-accurate, up-to-date cert store, then you should be running an actual kinto client and stay synchronized that way.
 
 But let's ignore that for now, and assume you have a good reason to run the code anyway. (If it's because the bundle is no longer updating, something has gone very wrong. Help, I guess?)
 
@@ -152,7 +152,7 @@ I believe projects like this should never be necessary. You have the data, you w
 ## TODOs
 
 * Use it for the thing I'm working on
-* Automate weekly uploads to github pages
+* Automate weekly uploads to GitHub pages
 * Let it run for a while
 * Show it to other people
 
