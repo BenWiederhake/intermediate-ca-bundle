@@ -95,7 +95,7 @@ def fetch_newest_records(records):
     by_pubkeyhash = dict()
     for record in records:
         # This intentionally overwrites old records if a newer record for the same pubkey exists.
-        by_pubkeyhash[record["pubKeyHash"]] = record
+        by_pubkeyhash[record["attachment"]["filename"]] = record
     print(f"Found {len(by_pubkeyhash)} unique pubkeys in {len(records)} records.")
     pems = []
     for record in by_pubkeyhash.values():
