@@ -93,7 +93,7 @@ def fetch_record_attachment(record):
 
 def fetch_newest_records(records):
     pems = []
-    for record in records[:10]:
+    for record in records:
         pems.append(fetch_record_attachment(record))
     return pems
 
